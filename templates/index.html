@@ -10,128 +10,196 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --background: #1c1c1c;
+            --surface: #2a2a2a;
+            --border: #333333;
+            --text: #eeeeee;
+            --text-secondary: #888888;
+            --primary: #24b47e;
+            --primary-dark: #1a8f62;
+            --error: #ff4747;
+            --success: #24b47e;
+        }
+
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             line-height: 1.6;
-            color: #333;
-            background: #f5f5f5;
+            color: var(--text);
+            background: var(--background);
+            min-height: 100vh;
             padding: 20px;
         }
 
         .container {
             max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: var(--surface);
             padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
         }
 
         h1 {
-            color: #1a1a1a;
-            margin-bottom: 1rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
             font-weight: 600;
+            font-size: 1.75rem;
+            letter-spacing: -0.025em;
         }
 
         .help {
-            color: #666;
+            color: var(--text-secondary);
             margin-bottom: 1.5rem;
-            font-size: 0.9rem;
+            font-size: 0.925rem;
         }
 
         textarea {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
             font-family: inherit;
             font-size: 14px;
             margin-bottom: 1rem;
             resize: vertical;
+            color: var(--text);
+            min-height: 120px;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(36, 180, 126, 0.2);
         }
 
         button {
-            background: #2563eb;
+            background: var(--primary);
             color: white;
             border: none;
             padding: 10px 20px;
-            border-radius: 6px;
+            border-radius: 4px;
             font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 38px;
         }
 
         button:hover {
-            background: #1d4ed8;
+            background: var(--primary-dark);
         }
 
         button:disabled {
-            background: #93c5fd;
+            opacity: 0.6;
             cursor: not-allowed;
         }
 
         .copy-button {
-            background: #059669;
+            background: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            padding: 6px 12px;
+            height: 32px;
             margin-left: 8px;
         }
 
         .copy-button:hover {
-            background: #047857;
+            background: rgba(36, 180, 126, 0.1);
         }
 
         .copy-button.copied {
-            background: #047857;
+            background: var(--success);
+            color: white;
+            border-color: var(--success);
         }
 
         .error {
-            color: #dc2626;
+            color: var(--error);
             padding: 12px;
-            background: #fef2f2;
-            border-radius: 6px;
+            background: rgba(255, 71, 71, 0.1);
+            border-radius: 4px;
             margin: 1rem 0;
+            border: 1px solid rgba(255, 71, 71, 0.2);
         }
 
         .loading {
-            color: #2563eb;
+            color: var(--primary);
             padding: 12px;
-            background: #eff6ff;
-            border-radius: 6px;
+            background: rgba(36, 180, 126, 0.1);
+            border-radius: 4px;
             margin: 1rem 0;
+            border: 1px solid rgba(36, 180, 126, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .loading::before {
+            content: '';
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--primary);
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
         }
 
         .result-item {
             margin: 1.5rem 0;
             padding: 1rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            background: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
         }
 
         .result-item h3 {
-            color: #1f2937;
-            margin-bottom: 0.5rem;
+            color: var(--text);
+            margin-bottom: 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: 1rem;
         }
 
         pre {
-            background: #f8fafc;
+            background: var(--background);
             padding: 1rem;
-            border-radius: 6px;
+            border-radius: 4px;
             overflow-x: auto;
             font-size: 14px;
             line-height: 1.5;
-            border: 1px solid #e5e7eb;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+
+        .keyboard-hint {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            text-align: right;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Crawl4AI Web Interface</h1>
-        <p class="help">Enter one or more URLs to crawl (one per line). The protocol (http:// or https://) will be added automatically if not provided.</p>
+        <p class="help">Enter one or more URLs to crawl. The protocol (http:// or https://) will be added automatically if not provided.</p>
         <textarea id="urls" placeholder="Enter URLs (one per line)&#10;Example:&#10;reddit.com&#10;example.com" rows="5"></textarea>
-        <button onclick="crawl()" id="crawlButton">Crawl</button>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <button onclick="crawl()" id="crawlButton">Crawl URLs</button>
+            <span class="keyboard-hint">Press Ctrl + Enter to crawl</span>
+        </div>
         <div id="results"></div>
     </div>
 
@@ -139,7 +207,7 @@
         async function copyToClipboard(text, button) {
             try {
                 await navigator.clipboard.writeText(text);
-                button.textContent = 'Copied!';
+                button.textContent = 'Copied';
                 button.classList.add('copied');
                 setTimeout(() => {
                     button.textContent = 'Copy';
@@ -161,7 +229,7 @@
             }
 
             crawlButton.disabled = true;
-            document.getElementById('results').innerHTML = '<div class="loading">Crawling URLs... Please wait.</div>';
+            document.getElementById('results').innerHTML = '<div class="loading">Crawling URLs...</div>';
             
             try {
                 const response = await fetch('/crawl', {
@@ -176,7 +244,7 @@
                 const resultsDiv = document.getElementById('results');
                 
                 if (results.error) {
-                    resultsDiv.innerHTML = `<div class="error">Error: ${results.error}</div>`;
+                    resultsDiv.innerHTML = `<div class="error">${results.error}</div>`;
                     return;
                 }
 
@@ -189,7 +257,7 @@
                                 ''}
                         </h3>
                         ${result.error ? 
-                            `<div class="error">Error: ${result.error}</div>` : 
+                            `<div class="error">${result.error}</div>` : 
                             `<pre>${result.markdown}</pre>`}
                     </div>`
                 ).join('');

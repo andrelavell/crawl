@@ -7,7 +7,5 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-ENV PORT=10000
-EXPOSE 10000
-
-CMD ["python", "app.py"]
+# Use PORT environment variable from Render
+CMD ["sh", "-c", "hypercorn app:app --bind 0.0.0.0:$PORT"]
