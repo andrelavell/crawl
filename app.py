@@ -4,7 +4,6 @@ from crawl4ai import AsyncWebCrawler
 import os
 
 app = Quart(__name__)
-app.config['PROVIDE_AUTOMATIC_OPTIONS'] = True
 
 async def crawl_urls(urls):
     try:
