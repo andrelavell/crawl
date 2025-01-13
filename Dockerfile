@@ -1,5 +1,9 @@
 FROM python:3.9-slim
 
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
 WORKDIR /app
 
 COPY requirements.txt .

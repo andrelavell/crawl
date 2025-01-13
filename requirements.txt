@@ -1,3 +1,4 @@
 quart==0.19.4
 crawl4ai
 hypercorn
+Flask==2.2.*
