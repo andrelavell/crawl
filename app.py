@@ -4,6 +4,7 @@ from crawl4ai import AsyncWebCrawler
 import os
 
 app = Quart(__name__)
+app.config["PROVIDE_AUTOMATIC_OPTIONS"] = True
 
 async def crawl_urls(urls):
     try:
@@ -41,5 +42,5 @@ async def crawl():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5002))
+    port = int(os.environ.get('PORT', 10000))
     app.run(host='0.0.0.0', port=port)
